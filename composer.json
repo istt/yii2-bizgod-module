@@ -2,7 +2,7 @@
 	"name": "istt/yii2-bizgod-module",
 	"description": "A module for Yii2",
 	"keywords": ["istt", "ndtrung", "yii", "bizgod"],
-	"type": "yii2-module",
+	"type": "yii2-extension",
 	"license": "MIT",
 	"authors": [
 		{
@@ -18,5 +18,8 @@
 		"psr-4": {
 			"istt\\bizgod\\": ""
 		}
-	}
+	},
+	"extra": {
+        "bootstrap": "istt\\bizgod\\Bootstrap"
+    }
 }
