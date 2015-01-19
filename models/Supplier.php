@@ -3,6 +3,7 @@
 namespace istt\bizgod\models;
 
 use Yii;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "supplier".
@@ -27,6 +28,8 @@ use Yii;
  */
 class Supplier extends \yii\db\ActiveRecord
 {
+	public $certifyFile;
+	public $categoryIds = [];
     /**
      * @inheritdoc
      */
@@ -45,7 +48,10 @@ class Supplier extends \yii\db\ActiveRecord
             [['score', 'supplier_type'], 'integer'],
             [['username', 'email', 'phone'], 'string', 'max' => 40],
             [['password', 'address', 'business_register', 'certify'], 'string', 'max' => 255],
-            [['username', 'email'], 'unique', 'targetAttribute' => ['username', 'email'], 'message' => 'The combination of Username and Email has already been taken.']
+            [['username', 'email'], 'unique', 'targetAttribute' => ['username', 'email'], 'message' => 'The combination of Username and Email has already been taken.'],
+        		// Extra data
+        		[['certifyFile'], 'file'],
+        		[['categoryIds'], 'safe'],
         ];
     }
 
@@ -66,6 +72,14 @@ class Supplier extends \yii\db\ActiveRecord
             'score' => Yii::t('app', 'Score'),
             'supplier_type' => Yii::t('app', 'Supplier Type'),
         ];
+    }
+    /**
+     * Populate all related fields
+     * @see \yii\db\BaseActiveRecord::afterFind()
+     */
+    public function afterFind(){
+    	$this->categoryIds = array_values(ArrayHelper::map($this->getCategoryRegisters()->all(), id, id);
+    	parent::afterFind();
     }
 
     /**

@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use istt\bizgod\models\Category;
+use kartik\widgets\Select2;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Supplier */
@@ -31,7 +32,10 @@ use istt\bizgod\models\Category;
 
     <?= $form->field($model, 'supplier_type')->textInput() ?>
 
-    <?= $form->field($model, 'categoryRegisters')->dropDownList(Category::CategoryOptions(), ['multiple' => TRUE]);?>
+    <?= $form->field($model, 'categoryIds')->widget(Select2::className(), [
+    		'data' => Category::CategoryOptions(),
+    		'options' => ['multiple' => true],
+    ]); ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
