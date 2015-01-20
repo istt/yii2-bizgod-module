@@ -41,7 +41,7 @@ class Po extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id', 'order_id', 'customer_id', 'supplier_id', 'unit', 'quantity', 'price', 'po_status', 'billing_type', 'delivery_type', 'invite_id', 'delivery_date'], 'required'],
+            [['order_id', 'customer_id', 'supplier_id', 'unit', 'quantity', 'price', 'po_status', 'billing_type', 'delivery_type', 'invite_id', 'delivery_date'], 'required'],
             [['id', 'order_id', 'customer_id', 'supplier_id', 'po_status', 'billing_type', 'delivery_type', 'invite_id'], 'integer'],
             [['quantity', 'price'], 'number'],
             [['delivery_date'], 'safe'],

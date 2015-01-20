@@ -3,6 +3,7 @@
 namespace istt\bizgod\models;
 
 use Yii;
+use dektrium\user\models\User as BaseUser;
 
 /**
  * This is the model class for table "customer".
@@ -23,7 +24,7 @@ use Yii;
  * @property Po[] $pos
  * @property Rating[] $ratings
  */
-class Customer extends \yii\db\ActiveRecord
+class Customer extends BaseUser
 {
     /**
      * @inheritdoc
@@ -38,11 +39,10 @@ class Customer extends \yii\db\ActiveRecord
      */
     public function rules()
     {
-        return [
-            [['username', 'password', 'full_name', 'mobile', 'email', 'address', 'city', 'status', 'score', 'customer_type'], 'required'],
+        return parent::rules() +  [
+            [['full_name', 'mobile', 'email', 'address', 'city', 'status', 'score', 'customer_type'], 'required'],
             [['status', 'score', 'customer_type'], 'integer'],
-            [['username'], 'string', 'max' => 40],
-            [['password', 'address', 'city'], 'string', 'max' => 255],
+            [['address', 'city'], 'string', 'max' => 255],
             [['full_name'], 'string', 'max' => 80],
             [['mobile', 'email'], 'string', 'max' => 20],
             [['username', 'email'], 'unique', 'targetAttribute' => ['username', 'email'], 'message' => 'The combination of Username and Email has already been taken.']

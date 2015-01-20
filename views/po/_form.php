@@ -2,6 +2,13 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use kartik\widgets\Select2;
+use yii\helpers\ArrayHelper;
+use istt\bizgod\models\Order;
+use istt\bizgod\models\Customer;
+use istt\bizgod\models\Supplier;
+use istt\bizgod\models\Invite;
+use yii\helpers\VarDumper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Po */
@@ -12,11 +19,21 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'order_id')->textInput() ?>
+    <?= $form->field($model, 'order_id')->widget(Select2::className(), [
+    		'data' => ArrayHelper::map(Order::find()->all(), 'id', 'order_name')
+    ]) ?>
 
-    <?= $form->field($model, 'customer_id')->textInput() ?>
+    <?= $form->field($model, 'customer_id')->widget(Select2::className(), [
+    		'data' => ArrayHelper::map(Customer::find()->all(), 'id', 'username')
+    ]) ?>
 
-    <?= $form->field($model, 'supplier_id')->textInput() ?>
+    <?= $form->field($model, 'supplier_id')->widget(Select2::className(), [
+    		'data' => ArrayHelper::map(Supplier::find()->all(), 'id', 'username')
+    ]) ?>
+
+    <?= $form->field($model, 'invite_id')->widget(Select2::className(), [
+    		'data' => ArrayHelper::map(Invite::find()->all(), 'id', 'id')
+    ]) ?>
 
     <?= $form->field($model, 'unit')->textInput(['maxlength' => 40]) ?>
 
@@ -30,8 +47,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'delivery_type')->textInput() ?>
 
-    <?= $form->field($model, 'invite_id')->textInput() ?>
-
     <?= $form->field($model, 'delivery_date')->textInput() ?>
 
     <div class="form-group">
@@ -41,3 +56,5 @@ use yii\widgets\ActiveForm;
     <?php ActiveForm::end(); ?>
 
 </div>
+
+<?php VarDumper::dump($model->getFirstErrors(), 1, true)?>

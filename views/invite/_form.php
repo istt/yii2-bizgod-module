@@ -2,6 +2,11 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use kartik\widgets\Select2;
+use yii\helpers\ArrayHelper;
+use istt\bizgod\models\Order;
+use istt\bizgod\models\Supplier;
+use kartik\date\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Invite */
@@ -12,15 +17,19 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'order_id')->textInput() ?>
+    <?= $form->field($model, 'order_id')->widget(Select2::className(), [
+    		'data' => ArrayHelper::map(Order::find()->orderBy(['order_date' => 'DESC'])->all(), 'id', 'order_name')
+    ]) ?>
 
     <?= $form->field($model, 'invite_type')->textInput() ?>
 
-    <?= $form->field($model, 'supplier_id')->textInput() ?>
+    <?= $form->field($model, 'supplier_id')->widget(Select2::className(), [
+    		'data' => ArrayHelper::map(Supplier::find()->orderBy(['username' => 'ASC'])->all(), 'id', 'username')
+    ]) ?>
 
-    <?= $form->field($model, 'date')->textInput() ?>
+    <?= $form->field($model, 'date')->widget(DatePicker::className()) ?>
 
-    <?= $form->field($model, 'status')->textInput() ?>
+    <?= $form->field($model, 'status')->dropDownList([Yii::t('app', 'Disable'), Yii::t('app', 'Enable')]) ?>
 
     <?= $form->field($model, 'data_msg')->textarea(['rows' => 6]) ?>
 

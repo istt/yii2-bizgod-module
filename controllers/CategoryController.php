@@ -72,6 +72,7 @@ class CategoryController extends Controller {
 			}
 		}
 		if ($res) {
+			Yii::$app->session->setFlash('success', Yii::t('bizgod', 'Successfully create new category!'));
 			return $this->redirect ( [
 					'view',
 					'id' => $model->id
@@ -99,13 +100,14 @@ class CategoryController extends Controller {
 				$res = $model->makeRoot();
 			} else{
 				$parent = Category::findOne ( $model->belongto );
-				if ($parent->id && ($parent->id != $oldParent)){
+				if ($parent && $parent->id && ($parent->id != $oldParent)){
 					$model->appendTo ( $parent );
 				}
 				$res = $model->save ();
 			}
 		}
 		if ($res) {
+			Yii::$app->session->setFlash('success', Yii::t('bizgod', 'Successfully update category <em>{name}</em>!', ['name' => $model->name]));
 			return $this->redirect ( [
 					'view',
 					'id' => $model->id
@@ -125,11 +127,16 @@ class CategoryController extends Controller {
 	 * @return mixed
 	 */
 	public function actionDelete($id) {
-		$this->findModel ( $id )->delete ();
-
-		return $this->redirect ( [
-				'index'
-		] );
+		$model = $this->findModel($id);
+		if ($model->deleteWithChildren ()){
+			Yii::$app->session->setFlash('success', Yii::t('bizgod', 'Successfully delete category!'));
+		} else {
+			Yii::$app->session->setFlash('error', Yii::t('bizgod', 'Cannot delete category!'));
+			foreach ($model->getErrors() as $k => $errorMsg){
+				Yii::$app->session->addFlash('error', Yii::t('bizgod', 'Cannot delete category!'));
+			}
+		}
+		return $this->redirect ( [ 'index' ] );
 	}
 
 	/**

@@ -61,8 +61,9 @@ class SupplierController extends Controller
     public function actionCreate()
     {
         $model = new Supplier();
+        $model->setScenario('create');
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) && $model->create()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [

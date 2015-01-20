@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use istt\bizgod\models\Category;
 use kartik\widgets\Select2;
+use istt\bizgod\models\Supplier;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Supplier */
@@ -30,7 +31,7 @@ use kartik\widgets\Select2;
 
     <?= $form->field($model, 'score')->textInput() ?>
 
-    <?= $form->field($model, 'supplier_type')->textInput() ?>
+    <?= $form->field($model, 'supplier_type')->dropDownList(Supplier::typeOptions()) ?>
 
     <?= $form->field($model, 'categoryIds')->widget(Select2::className(), [
     		'data' => Category::CategoryOptions(),

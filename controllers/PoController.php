@@ -65,6 +65,9 @@ class PoController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
+        	foreach ($model->getFirstErrors() as $idx => $msg){
+        		Yii::$app->session->addFlash('error', $msg);
+        	}
             return $this->render('create', [
                 'model' => $model,
             ]);
@@ -84,6 +87,9 @@ class PoController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
+        	foreach ($model->getFirstErrors() as $idx => $msg){
+        		Yii::$app->session->addFlash('error', $msg);
+        	}
             return $this->render('update', [
                 'model' => $model,
             ]);

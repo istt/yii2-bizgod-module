@@ -3,6 +3,10 @@
 use yii\helpers\Html;
 use kartik\widgets\ActiveForm;
 use istt\bizgod\models\Category;
+use kartik\date\DatePicker;
+use kartik\widgets\Select2;
+use istt\bizgod\models\Customer;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Order */
@@ -31,7 +35,7 @@ use istt\bizgod\models\Category;
 		    				'content' => '<i class="glyphicon glyphicon-heart"></i>'
 		    			]
 		    		]
-		    	])->textInput() ?>
+		    	])->dropDownList([Yii::t('app', 'Disable'), Yii::t('app', 'Enable')]) ?>
 
     <?= $form->field($model, 'unit')->textInput(['maxlength' => 255]) ?>
 
@@ -53,16 +57,19 @@ use istt\bizgod\models\Category;
 
     <div class="row">
     	<div class="col-md-6">
-    		<?= $form->field($model, 'order_date')->textInput() ?>
+    		<?= $form->field($model, 'order_date')->widget(DatePicker::className()) ?>
     	</div>
     	<div class="col-md-6">
-    		<?= $form->field($model, 'due_date')->textInput() ?>
+    		<?= $form->field($model, 'due_date')->widget(DatePicker::className()) ?>
     	</div>
     </div>
 
     <?= $form->field($model, 'billing_type')->textInput() ?>
 
-    <?= $form->field($model, 'customer_id')->textInput() ?>
+    <?= $form->field($model, 'customer_id')->widget(Select2::className(), [
+    		// TODO: Add ajax support for this
+    		'data' => ArrayHelper::map(Customer::find()->all(), 'id', 'username')
+    ]) ?>
 
     <?= $form->field($model, 'delivery_type')->textInput() ?>
 

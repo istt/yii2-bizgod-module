@@ -4,6 +4,7 @@ namespace istt\bizgod\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
+use dektrium\user\models\User as BaseUser;
 
 /**
  * This is the model class for table "supplier".
@@ -26,7 +27,7 @@ use yii\helpers\ArrayHelper;
  * @property Rating[] $ratings
  * @property Response[] $responses
  */
-class Supplier extends \yii\db\ActiveRecord
+class Supplier extends BaseUser
 {
 	public $certifyFile;
 	public $categoryIds = [];
@@ -43,11 +44,11 @@ class Supplier extends \yii\db\ActiveRecord
      */
     public function rules()
     {
-        return [
-            [['username', 'password', 'email', 'phone', 'address', 'business_register', 'certify', 'score', 'supplier_type'], 'required'],
+        return parent::rules() + [
+            [['phone', 'address', 'business_register', 'certify', 'score', 'supplier_type'], 'required'],
             [['score', 'supplier_type'], 'integer'],
-            [['username', 'email', 'phone'], 'string', 'max' => 40],
-            [['password', 'address', 'business_register', 'certify'], 'string', 'max' => 255],
+            [['phone'], 'string', 'max' => 40],
+            [['address', 'business_register', 'certify'], 'string', 'max' => 255],
             [['username', 'email'], 'unique', 'targetAttribute' => ['username', 'email'], 'message' => 'The combination of Username and Email has already been taken.'],
         		// Extra data
         		[['certifyFile'], 'file'],
@@ -78,7 +79,7 @@ class Supplier extends \yii\db\ActiveRecord
      * @see \yii\db\BaseActiveRecord::afterFind()
      */
     public function afterFind(){
-    	$this->categoryIds = array_values(ArrayHelper::map($this->getCategoryRegisters()->all(), id, id);
+    	$this->categoryIds = array_values(ArrayHelper::map($this->getCategoryRegisters()->all(), 'category_id', 'category_id'));
     	parent::afterFind();
     }
 
@@ -128,5 +129,16 @@ class Supplier extends \yii\db\ActiveRecord
     public function getResponses()
     {
         return $this->hasMany(Response::className(), ['supplier_id' => 'id']);
+    }
+
+    const TYPE_NORMAL = 0;
+    const TYPE_ONE = 1;
+    const TYPE_TWO = 2;
+    public static function typeOptions(){
+    	return [
+    			Yii::t('bizgod', 'Type 0'),
+    			Yii::t('bizgod', 'Type 1'),
+    			Yii::t('bizgod', 'Type 2'),
+    	];
     }
 }
