@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\DetailView;
+use yii\helpers\VarDumper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Category */
@@ -53,3 +54,8 @@ $this->params['breadcrumbs'][] = $this->title;
     </ul>
 
 </div>
+
+<h3>Suppliers</h3>
+<?php foreach ($model->getAllSuppliers()->all() as $supplier){
+		echo $this->render('/supplier/_item', ['model' => $supplier]);
+}?>

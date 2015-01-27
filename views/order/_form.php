@@ -37,9 +37,17 @@ use yii\helpers\ArrayHelper;
 		    		]
 		    	])->dropDownList([Yii::t('app', 'Disable'), Yii::t('app', 'Enable')]) ?>
 
-    <?= $form->field($model, 'unit')->textInput(['maxlength' => 255]) ?>
+    <div class="row">
+		<div class="col-sm-6">
+		    <?= $form->field($model, 'quantity')->textInput() ?>
 
-    <?= $form->field($model, 'quantity')->textInput() ?>
+		</div>
+		<div class="col-sm-6">
+		    <?= $form->field($model, 'unit')->textInput(['maxlength' => 255]) ?>
+
+		</div>
+	</div>
+
 
     <?= $form->field($model, 'order_type')->textInput() ?>
 

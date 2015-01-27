@@ -32,6 +32,16 @@ use Yii;
  */
 class Order extends \yii\db\ActiveRecord
 {
+	const TYPE_ALL = 0;		// Invite All Supplier
+	const TYPE_LIMITED = 1;	// Invite certified supplier only
+	const TYPE_CUSTOM = 2;	// Choose custom supplier
+
+	const DELIVERY_TYPE_AT_SHOP = 1;
+	const DELIVERY_TYPE_TO_HOME = 2;
+
+	const BILLING_TYPE_0 = 0;
+	const BILLING_TYPE_1 = 1;
+	const BILLING_TYPE_2 = 2;
 	/**
 	 * @return \yii\db\Connection the database connection used by this AR class.
 	 */
@@ -44,7 +54,7 @@ class Order extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'order';
+        return '{{order}}';
     }
 
     /**
@@ -53,13 +63,21 @@ class Order extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['customer_id', 'category_id', 'order_name', 'order_description', 'order_status', 'unit', 'quantity', 'order_type', 'rfp_attach', 'product_image', 'budget', 'order_date', 'due_date', 'billing_type', 'delivery_type', 'delivery_address'], 'required'],
+            [['order_name', 'order_description', 'order_status', 'unit', 'quantity', 'order_type', 'rfp_attach', 'product_image', 'budget', 'order_date', 'due_date', 'billing_type', 'delivery_type', 'delivery_address'], 'required'],
             [['customer_id', 'category_id', 'order_status', 'order_type', 'billing_type', 'delivery_type'], 'integer'],
             [['order_description'], 'string'],
             [['quantity', 'budget'], 'number'],
             [['order_date', 'due_date'], 'safe'],
             [['order_name', 'unit', 'rfp_attach', 'product_image', 'delivery_address'], 'string', 'max' => 255]
         ];
+    }
+
+    public function beforeValidate(){
+    	if ($this->scenario == 'new'){
+    		$this->order_date = date('Y-m-d H:i:s');
+    		$this->customer_id = \Yii::$app->getUser()->getId();
+    	}
+    	return parent::beforeValidate();
     }
 
     /**

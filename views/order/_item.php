@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\models\Order */
 
-$this->title = $model->order_name;
+$this->title = $model->id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Orders'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -28,14 +28,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-//             'id',
-//             'customer_id',
-//             'category_id',
+            'id',
+            'customer_id',
+            'category_id',
             'order_name',
             'order_description:ntext',
-            'order_status:boolean',
-            'quantity',
+            'order_status',
             'unit',
+            'quantity',
             'order_type',
             'rfp_attach',
             'product_image',

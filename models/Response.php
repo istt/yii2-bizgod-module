@@ -21,12 +21,14 @@ use Yii;
  */
 class Response extends \yii\db\ActiveRecord
 {
+	const TYPE_CUSTOMER = 0;	// Customer rating
+	const TYPE_SUPPLIER = 1;	// Supplier rating
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'response';
+        return '{{response}}';
     }
     /**
      * @return \yii\db\Connection the database connection used by this AR class.

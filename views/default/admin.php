@@ -1,4 +1,3 @@
-<?php use yii\helpers\VarDumper; ?>
 <div class="bizgod-default-index">
     <h1><?= $this->context->action->uniqueId ?></h1>
     <p>
@@ -11,8 +10,3 @@
         <code><?= __FILE__ ?></code>
     </p>
 </div>
-
-
-BizGod: <?php VarDumper::dump(\Yii::$app->user->can('/bizgod/*')); ?>
-BizGod Category: <?php VarDumper::dump(\Yii::$app->user->can('/bizgod/category/*')); ?>
-BizGod Category Admin: <?php VarDumper::dump(\Yii::$app->user->can('/bizgod/category/admin')); ?>

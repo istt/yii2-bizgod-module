@@ -8,24 +8,26 @@ use Yii;
  * This is the model class for table "rating".
  *
  * @property integer $id
- * @property integer $rating_type
  * @property integer $customer_id
  * @property integer $supplier_id
+ * @property string $date
+ * @property integer $rating_type
  * @property integer $score
  * @property string $comment
- * @property string $date
  *
  * @property Customer $customer
  * @property Supplier $supplier
  */
 class Rating extends \yii\db\ActiveRecord
 {
+	const TYPE_CUSTOMER = 0;	// Customer rating
+	const TYPE_SUPPLIER = 1;	// Supplier rating
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'rating';
+        return '{{rating}}';
     }
 
     /**

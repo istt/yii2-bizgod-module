@@ -22,6 +22,10 @@ class CategoryController extends Controller {
 										'post'
 								]
 						]
+				],
+				'as access' => [
+						'class' => 'mdm\admin\components\AccessControl',
+						'allowActions' => ['index']
 				]
 		];
 	}
@@ -36,6 +40,20 @@ class CategoryController extends Controller {
 		$dataProvider = $searchModel->search ( Yii::$app->request->queryParams );
 
 		return $this->render ( 'indexCategory', [
+				'searchModel' => $searchModel,
+				'dataProvider' => $dataProvider
+		] );
+	}
+	/**
+	 * Lists all Category models.
+	 *
+	 * @return mixed
+	 */
+	public function actionAdmin() {
+		$searchModel = new CategorySearch ();
+		$dataProvider = $searchModel->search ( Yii::$app->request->queryParams );
+
+		return $this->render ( 'adminCategory', [
 				'searchModel' => $searchModel,
 				'dataProvider' => $dataProvider
 		] );

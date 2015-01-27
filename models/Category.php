@@ -177,4 +177,11 @@ class Category extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Supplier::className(), ['id' => 'supplier_id'])->viaTable('category_register', ['category_id' => 'id']);
     }
+
+    /**
+     * Return all suppliers of current and child categories..
+     */
+    public function getAllSuppliers(){
+    	return $query = Supplier::find(['in', 'id', array_keys(self::CategoryOptions($this->id))]);
+    }
 }

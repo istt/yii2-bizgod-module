@@ -40,6 +40,20 @@ class CategoryRegisterController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
+    /**
+     * Lists all CategoryRegister models.
+     * @return mixed
+     */
+    public function actionAdmin()
+    {
+        $searchModel = new CategoryRegisterSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('admin', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
 
     /**
      * Displays a single CategoryRegister model.

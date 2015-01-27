@@ -23,6 +23,12 @@ class PoController extends Controller
                     'delete' => ['post'],
                 ],
             ],
+        		'as access' => [
+        				'class' => 'mdm\admin\components\AccessControl',
+        				'allowActions' => [
+        						'index'
+        				]
+        		]
         ];
     }
 
@@ -36,6 +42,20 @@ class PoController extends Controller
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+    /**
+     * Lists all Po models.
+     * @return mixed
+     */
+    public function actionAdmin()
+    {
+        $searchModel = new PoSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('admin', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);

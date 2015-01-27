@@ -4,13 +4,13 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Order */
+/* @var $model app\models\Customer */
 
-$this->title = $model->order_name;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Orders'), 'url' => ['index']];
+$this->title = $model->id;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Customers'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="order-view">
+<div class="customer-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -28,23 +28,17 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-//             'id',
-//             'customer_id',
-//             'category_id',
-            'order_name',
-            'order_description:ntext',
-            'order_status:boolean',
-            'quantity',
-            'unit',
-            'order_type',
-            'rfp_attach',
-            'product_image',
-            'budget',
-            'order_date',
-            'due_date',
-            'billing_type',
-            'delivery_type',
-            'delivery_address',
+            'id',
+            'username',
+            'password',
+            'full_name',
+            'mobile',
+            'email:email',
+            'address',
+            'city',
+            'status',
+            'score',
+            'customer_type',
         ],
     ]) ?>
 

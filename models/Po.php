@@ -11,14 +11,14 @@ use Yii;
  * @property integer $order_id
  * @property integer $customer_id
  * @property integer $supplier_id
- * @property string $unit
- * @property double $quantity
- * @property double $price
+ * @property integer $invite_id
  * @property integer $po_status
  * @property integer $billing_type
  * @property integer $delivery_type
- * @property integer $invite_id
  * @property string $delivery_date
+ * @property double $quantity
+ * @property string $unit
+ * @property double $price
  *
  * @property Order $order
  * @property Customer $customer
