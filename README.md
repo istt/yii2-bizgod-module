@@ -1,7 +1,7 @@
 Yii2 Bizgod Module
 ==============
 
-Module Bizgod for quickly write composer module. Just extract it and search replace the work `bizgod` with `yourModuleName`. Then rename the file `BizgodModule` to `YourModule`. 
+Module Bizgod for quickly write composer module. Just extract it and search replace the work `bizgod` with `yourModuleName`. Then rename the file `BizgodModule` to `YourModule`.
 
 That is all!
 
@@ -85,4 +85,26 @@ $items =  [
 ~~~
 
 
+# BizGod Module
 
+- Order Type có 3 loại:
+    - Invite All Supplier: Gửi Invite tới tất cả các supplier
+    - Limit for Certified Supplier: Chỉ gửi Invite cho các Supplier có sản phẩm và đã được certify
+    - Select Supplier: Đưa ra danh sách ác supplier có sản phẩm. Khách hàng tự lựa chọn các Supplier sẽ gửi Invite
+- Customer Type: Cá nhân vs Tổ chức
+- Rating Type:
+    - Customer rate cho Supplier
+    - Ngược lại
+- Order Status:
+    1 - Mới tạo và đang gửi Invite
+    2 - Hoàn thành việc gửi Invite
+    3 - Đã chốt PO
+- Response Type:
+    - Customer Response
+    - Supplier Response
+- PO Status:
+    1 - Mới chốt, chưa giao hàng
+    2 - Đã giao hàng, chưa thanh toán
+    3 - Đã giao hàng + thanh toán
+    4 - Đã hết thời gian khiếu nại / đổi hàng
+    5 - Đã hết thời gian rating
