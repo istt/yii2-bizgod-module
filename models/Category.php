@@ -165,17 +165,9 @@ class Category extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCategoryRegisters()
-    {
-        return $this->hasMany(CategoryRegister::className(), ['category_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getSuppliers()
     {
-        return $this->hasMany(Supplier::className(), ['id' => 'supplier_id'])->viaTable('category_register', ['category_id' => 'id']);
+        return $this->hasMany(Supplier::className(), ['id' => 'supplier_id'])->viaTable('{{%supplier_category}}', ['category_id' => 'id']);
     }
 
     /**

@@ -15,12 +15,6 @@ use istt\bizgod\models\Supplier;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'username')->textInput(['maxlength' => 40]) ?>
-
-    <?= $form->field($model, 'password')->passwordInput(['maxlength' => 255]) ?>
-
-    <?= $form->field($model, 'email')->textInput(['maxlength' => 40]) ?>
-
     <?= $form->field($model, 'phone')->textInput(['maxlength' => 40]) ?>
 
     <?= $form->field($model, 'address')->textInput(['maxlength' => 255]) ?>

@@ -3,7 +3,7 @@
 namespace istt\bizgod\models;
 
 use Yii;
-use dektrium\user\models\User as BaseUser;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "customer".
@@ -24,7 +24,7 @@ use dektrium\user\models\User as BaseUser;
  * @property Po[] $pos
  * @property Rating[] $ratings
  */
-class Customer extends BaseUser
+class Customer extends ActiveRecord
 {
 	/**
 	 * @return \yii\db\Connection the database connection used by this AR class.
@@ -38,7 +38,7 @@ class Customer extends BaseUser
      */
     public static function tableName()
     {
-        return 'customer';
+        return '{{%customer}}';
     }
 
     /**
@@ -46,7 +46,7 @@ class Customer extends BaseUser
      */
     public function rules()
     {
-        return parent::rules() +  [
+        return [
             [['full_name', 'mobile', 'email', 'address', 'city', 'status', 'score', 'customer_type'], 'required'],
             [['status', 'score', 'customer_type'], 'integer'],
             [['address', 'city'], 'string', 'max' => 255],

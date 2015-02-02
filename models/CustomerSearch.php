@@ -19,7 +19,7 @@ class CustomerSearch extends Customer
     {
         return [
             [['id', 'status', 'score', 'customer_type'], 'integer'],
-            [['username', 'password', 'full_name', 'mobile', 'email', 'address', 'city'], 'safe'],
+            [['full_name', 'mobile', 'email', 'address', 'city'], 'safe'],
         ];
     }
 
@@ -52,14 +52,12 @@ class CustomerSearch extends Customer
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
             'status' => $this->status,
             'score' => $this->score,
             'customer_type' => $this->customer_type,
         ]);
 
-        $query->andFilterWhere(['like', 'username', $this->username])
-            ->andFilterWhere(['like', 'password', $this->password])
+        $query
             ->andFilterWhere(['like', 'full_name', $this->full_name])
             ->andFilterWhere(['like', 'mobile', $this->mobile])
             ->andFilterWhere(['like', 'email', $this->email])

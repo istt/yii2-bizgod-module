@@ -4,7 +4,7 @@ namespace istt\bizgod\models;
 
 use Yii;
 use yii\helpers\ArrayHelper;
-use dektrium\user\models\User as BaseUser;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "supplier".
@@ -27,7 +27,7 @@ use dektrium\user\models\User as BaseUser;
  * @property Rating[] $ratings
  * @property Response[] $responses
  */
-class Supplier extends BaseUser
+class Supplier extends ActiveRecord
 {
 	public $certifyFile;
 	public $categoryIds = [];
@@ -36,7 +36,7 @@ class Supplier extends BaseUser
      */
     public static function tableName()
     {
-        return 'supplier';
+        return '{{%supplier}}';
     }
 
     /**
@@ -51,7 +51,7 @@ class Supplier extends BaseUser
      */
     public function rules()
     {
-        return parent::rules() + [
+        return [
             [['phone', 'address', 'business_register', 'certify', 'score', 'supplier_type'], 'required'],
             [['score', 'supplier_type'], 'integer'],
             [['phone'], 'string', 'max' => 40],
@@ -93,17 +93,9 @@ class Supplier extends BaseUser
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCategoryRegisters()
-    {
-        return $this->hasMany(CategoryRegister::className(), ['supplier_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getCategories()
     {
-        return $this->hasMany(Category::className(), ['id' => 'category_id'])->viaTable('category_register', ['supplier_id' => 'id']);
+        return $this->hasMany(Category::className(), ['id' => 'category_id'])->viaTable('{{%supplier_category}}', ['supplier_id' => 'id']);
     }
 
     /**

@@ -18,8 +18,8 @@ class SupplierSearch extends Supplier
     public function rules()
     {
         return [
-            [['id', 'score', 'supplier_type'], 'integer'],
-            [['username', 'password', 'email', 'phone', 'address', 'business_register', 'certify'], 'safe'],
+            [[ 'score', 'supplier_type'], 'integer'],
+            [['phone', 'address', 'business_register', 'certify'], 'safe'],
         ];
     }
 
@@ -52,14 +52,11 @@ class SupplierSearch extends Supplier
         }
 
         $query->andFilterWhere([
-            'id' => $this->id,
             'score' => $this->score,
             'supplier_type' => $this->supplier_type,
         ]);
 
-        $query->andFilterWhere(['like', 'username', $this->username])
-            ->andFilterWhere(['like', 'password', $this->password])
-            ->andFilterWhere(['like', 'email', $this->email])
+        $query
             ->andFilterWhere(['like', 'phone', $this->phone])
             ->andFilterWhere(['like', 'address', $this->address])
             ->andFilterWhere(['like', 'business_register', $this->business_register])
