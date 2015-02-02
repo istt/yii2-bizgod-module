@@ -30,32 +30,48 @@ use dektrium\user\models\User as BaseUser;
  */
 class User extends BaseUser {
 
-	const CUSTOMER = 'customer';
-	const SUPPLIER = 'supplier';
-	public function rules(){
-		return parent::rules() + [
-				'type' => [['type'], 'in', 'range' => self::CUSTOMER, self::SUPPLIER],
-		];
+// 	const CUSTOMER = 'customer';
+// 	const SUPPLIER = 'supplier';
+// 	public function rules(){
+// 		return parent::rules() + [
+// 				'type' => [['type'], 'in', 'range' => self::CUSTOMER, self::SUPPLIER],
+// 		];
+// 	}
+// 	/** @inheritdoc */
+// 	public function afterSave($insert, $changedAttributes)
+// 	{
+// 		if ($insert) {
+// 			if ($this->type == self::CUSTOMER){
+// 				$customerProfile = \Yii::createObject([
+// 						'class' => Customer::className(),
+// 				]);
+// 				// FIXME: Set customer profile attributes
+// 				$customerProfile->save(false);
+// 			}
+// 			elseif ($this->type == self::SUPPLIER){
+// 				$supplierProfile = \Yii::createObject([
+// 						'class' => Supplier::className(),
+// 				]);
+// 				// FIXME: Set customer profile attributes
+// 				$supplierProfile->save(false);
+// 			}
+// 		}
+// 		parent::afterSave($insert, $changedAttributes);
+// 	}
+
+// 	public function getProfiles(){
+// 		if (Yii::$app->authManager->checkAccess($this->id, "/bizgod/customer/*")){
+// 			$this->profiles[] = self::CUSTOMER;
+// 		}
+// 		if (Yii::$app->authManager->checkAccess($this->id, "/bizgod/supplier/*")){
+// 			$this->profiles[] = self::SUPPLIER;
+// 		}
+// 		return $this->profiles;
+// 	}
+	public function getCustomer(){
+		return $this->hasOne(Customer::className(), ['user_id' => 'id']);
 	}
-	/** @inheritdoc */
-	public function afterSave($insert, $changedAttributes)
-	{
-		if ($insert) {
-			if ($this->type == self::CUSTOMER){
-				$customerProfile = \Yii::createObject([
-						'class' => Customer::className(),
-				]);
-				// FIXME: Set customer profile attributes
-				$customerProfile->save(false);
-			}
-			elseif ($this->type == self::SUPPLIER){
-				$supplierProfile = \Yii::createObject([
-						'class' => Supplier::className(),
-				]);
-				// FIXME: Set customer profile attributes
-				$supplierProfile->save(false);
-			}
-		}
-		parent::afterSave($insert, $changedAttributes);
+	public function getSupplier(){
+		return $this->hasOne(Supplier::className(), ['user_id' => 'id']);
 	}
 }

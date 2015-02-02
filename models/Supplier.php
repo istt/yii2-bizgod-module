@@ -9,9 +9,7 @@ use yii\db\ActiveRecord;
 /**
  * This is the model class for table "supplier".
  *
- * @property integer $id
- * @property string $username
- * @property string $password
+ * @property integer $user_id
  * @property string $email
  * @property string $phone
  * @property string $address
@@ -56,7 +54,6 @@ class Supplier extends ActiveRecord
             [['score', 'supplier_type'], 'integer'],
             [['phone'], 'string', 'max' => 40],
             [['address', 'business_register', 'certify'], 'string', 'max' => 255],
-            [['username', 'email'], 'unique', 'targetAttribute' => ['username', 'email'], 'message' => 'The combination of Username and Email has already been taken.'],
         		// Extra data
         		[['certifyFile'], 'file'],
         		[['categoryIds'], 'safe'],
@@ -86,7 +83,7 @@ class Supplier extends ActiveRecord
      * @see \yii\db\BaseActiveRecord::afterFind()
      */
     public function afterFind(){
-    	$this->categoryIds = array_values(ArrayHelper::map($this->getCategoryRegisters()->all(), 'category_id', 'category_id'));
+//     	$this->categoryIds = array_values(ArrayHelper::map($this->getCategoryRegisters()->all(), 'category_id', 'category_id'));
     	parent::afterFind();
     }
 
@@ -98,6 +95,13 @@ class Supplier extends ActiveRecord
         return $this->hasMany(Category::className(), ['id' => 'category_id'])->viaTable('{{%supplier_category}}', ['supplier_id' => 'id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
     /**
      * @return \yii\db\ActiveQuery
      */

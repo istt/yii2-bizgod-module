@@ -8,6 +8,9 @@ use istt\bizgod\models\SupplierSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use istt\bizgod\models\User;
+use yii\web\HttpException;
+use dektrium\user\Finder;
 
 /**
  * SupplierController implements the CRUD actions for Supplier model.
@@ -80,17 +83,23 @@ class SupplierController extends Controller {
 	 * @return mixed
 	 */
 	public function actionCreate() {
-		$model = new Supplier ();
-		$model->setScenario ( 'create' );
+		$user = new User();
+		$user->scenario = 'create';
 
-		if ($model->load ( Yii::$app->request->post () ) && $model->create ()) {
-			return $this->redirect ( [
-					'view',
-					'id' => $model->id
-			] );
+		$model = new Supplier ();
+
+		if ($user->load(Yii::$app->request->post()) && $user->save() && $model->load ( Yii::$app->request->post () )) {
+			$model->user_id = $user->id;
+			if ($model->save()){
+				return $this->redirect ( [
+						'view',
+						'id' => $model->user_id
+				] );
+			} else throw new HttpException(500, "There was an error processing your request. Please try again.");
 		} else {
 			return $this->render ( 'create', [
-					'model' => $model
+					'model' => $model,
+					'user' => $user,
 			] );
 		}
 	}
@@ -104,15 +113,20 @@ class SupplierController extends Controller {
 	 */
 	public function actionUpdate($id) {
 		$model = $this->findModel ( $id );
+		$finder = Yii::createObject(['class' => Finder::className()]);
+		$user = $finder->findUserById($model->user_id);
+		$user->scenario = 'update';
 
-		if ($model->load ( Yii::$app->request->post () ) && $model->save ()) {
+		if ($user->load ( Yii::$app->request->post () ) && $user->save()
+				&& $model->load ( Yii::$app->request->post () ) && $model->save () ) {
 			return $this->redirect ( [
 					'view',
-					'id' => $model->id
+					'id' => $model->user_id
 			] );
 		} else {
 			return $this->render ( 'update', [
-					'model' => $model
+					'model' => $model,
+					'user' => $user,
 			] );
 		}
 	}

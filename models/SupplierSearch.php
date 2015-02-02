@@ -42,6 +42,7 @@ class SupplierSearch extends Supplier
     public function search($params)
     {
         $query = Supplier::find();
+        $query->with('user');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

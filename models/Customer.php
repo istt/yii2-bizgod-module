@@ -8,12 +8,9 @@ use yii\db\ActiveRecord;
 /**
  * This is the model class for table "customer".
  *
- * @property integer $id
- * @property string $username
- * @property string $password
+ * @property integer $user_id
  * @property string $full_name
  * @property string $mobile
- * @property string $email
  * @property string $address
  * @property string $city
  * @property integer $status
@@ -51,8 +48,7 @@ class Customer extends ActiveRecord
             [['status', 'score', 'customer_type'], 'integer'],
             [['address', 'city'], 'string', 'max' => 255],
             [['full_name'], 'string', 'max' => 80],
-            [['mobile', 'email'], 'string', 'max' => 20],
-            [['username', 'email'], 'unique', 'targetAttribute' => ['username', 'email'], 'message' => 'The combination of Username and Email has already been taken.']
+            [['mobile'], 'string', 'max' => 20],
         ];
     }
 
@@ -81,7 +77,14 @@ class Customer extends ActiveRecord
      */
     public function getOrders()
     {
-        return $this->hasMany(Order::className(), ['customer_id' => 'id']);
+        return $this->hasMany(Order::className(), ['customer_id' => 'user_id']);
+    }
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
     /**
@@ -89,7 +92,7 @@ class Customer extends ActiveRecord
      */
     public function getPos()
     {
-        return $this->hasMany(Po::className(), ['customer_id' => 'id']);
+        return $this->hasMany(Po::className(), ['customer_id' => 'user_id']);
     }
 
     /**
@@ -97,6 +100,6 @@ class Customer extends ActiveRecord
      */
     public function getRatings()
     {
-        return $this->hasMany(Rating::className(), ['customer_id' => 'id']);
+        return $this->hasMany(Rating::className(), ['customer_id' => 'user_id']);
     }
 }

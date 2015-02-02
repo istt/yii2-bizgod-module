@@ -9,6 +9,9 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
+use istt\bizgod\models\User;
+use dektrium\user\Finder;
+use yii\web\HttpException;
 
 /**
  * CustomerController implements the CRUD actions for Customer model.
@@ -84,23 +87,31 @@ class CustomerController extends Controller {
 	}
 
 	/**
-	 * Creates a new Customer model.
+	 * Creates a new Customer model along with associated user profile.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 *
 	 * @return mixed
 	 */
 	public function actionCreate() {
-		$model = new Customer ();
-		$model->setScenario ( 'create' );
+		$user = \Yii::createObject([
+				'class'    => User::className(),
+				'scenario' => 'create',
+		]);
 
-		if ($model->load ( Yii::$app->request->post () ) && $model->create ()) {
-			return $this->redirect ( [
-					'view',
-					'id' => $model->id
-			] );
+		$model = new Customer ();
+
+		if ($user->load(\Yii::$app->request->post()) && $model->load ( Yii::$app->request->post ()) && $user->save()) {
+			$model->user_id = $user->id;
+			if ($model->save()){
+				return $this->redirect ( [
+						'view',
+						'id' => $model->user_id
+				] );
+			} else throw new HttpException(500, "There was an error processing your request. Please try again");
 		} else {
 			return $this->render ( 'create', [
-					'model' => $model
+					'model' => $model,
+					'user' => $user
 			] );
 		}
 	}
@@ -115,15 +126,19 @@ class CustomerController extends Controller {
 	public function actionUpdate($id) {
 		$model = $this->findModel ( $id );
 		$model->scenario = 'update';
+		$finder = Yii::createObject(['class' => Finder::className()]);
+		$user = $finder->findUserById($model->user_id);
+		$user->scenario = 'update';
 
-		if ($model->load ( Yii::$app->request->post () ) && $model->save ()) {
+		if ($user->load( Yii::$app->request->post ()) && $user->save() && $model->load ( Yii::$app->request->post () ) && $model->save ()) {
 			return $this->redirect ( [
 					'view',
-					'id' => $model->id
+					'id' => $model->user_id
 			] );
 		} else {
 			return $this->render ( 'update', [
-					'model' => $model
+					'model' => $model,
+					'user' => $user
 			] );
 		}
 	}

@@ -72,7 +72,7 @@ class Rating extends \yii\db\ActiveRecord
      */
     public function getCustomer()
     {
-        return $this->hasOne(Customer::className(), ['id' => 'customer_id']);
+        return $this->hasOne(Customer::className(), ['user_id' => 'customer_id']);
     }
 
     /**
@@ -80,6 +80,6 @@ class Rating extends \yii\db\ActiveRecord
      */
     public function getSupplier()
     {
-        return $this->hasOne(Supplier::className(), ['id' => 'supplier_id']);
+        return $this->hasOne(Supplier::className(), ['user_id' => 'supplier_id']);
     }
 }
