@@ -7,7 +7,7 @@ use yii\helpers\Html;
 ?>
 <div class="supplier-view">
 
-    <h1><?= Html::a($model->email, ['supplier/view', 'id' => $model->id]) ?></h1>
+    <h1><?= Html::a($model->user->email, ['supplier/view', 'id' => $model->user_id]) ?></h1>
 
     <address><?= $model->address; ?></address>
 

@@ -32,6 +32,7 @@ use Yii;
  */
 class Order extends \yii\db\ActiveRecord
 {
+	const DIR="uploads/orders/";
 	const TYPE_ALL = 0;		// Invite All Supplier
 	const TYPE_LIMITED = 1;	// Invite certified supplier only
 	const TYPE_CUSTOM = 2;	// Choose custom supplier
@@ -114,6 +115,13 @@ class Order extends \yii\db\ActiveRecord
         return $this->hasMany(Invite::className(), ['order_id' => 'id']);
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCategory()
+    {
+        return $this->hasOne(Category::className(), ['id' => 'category_id']);
+    }
     /**
      * @return \yii\db\ActiveQuery
      */

@@ -21,8 +21,8 @@ use Yii;
  */
 class Response extends \yii\db\ActiveRecord
 {
-	const TYPE_CUSTOMER = 0;	// Customer rating
-	const TYPE_SUPPLIER = 1;	// Supplier rating
+	const TYPE_CUSTOMER = 0;	// Customer response
+	const TYPE_SUPPLIER = 1;	// Supplier response
     /**
      * @inheritdoc
      */
@@ -88,6 +88,6 @@ class Response extends \yii\db\ActiveRecord
      */
     public function getSupplier()
     {
-        return $this->hasOne(Supplier::className(), ['id' => 'supplier_id']);
+        return $this->hasOne(Supplier::className(), ['user_id' => 'supplier_id']);
     }
 }

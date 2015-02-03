@@ -15,6 +15,7 @@ use yii\base\BootstrapInterface;
 use yii\web\GroupUrlRule;
 use yii\console\Application as ConsoleApplication;
 use yii\db\Connection;
+use yii\base\Module;
 
 /**
  * Bootstrap class registers module and user application component. It also creates some url rules which will be applied
@@ -31,7 +32,8 @@ class Bootstrap implements BootstrapInterface
         /** @var $module Module */
         if ($app->hasModule('bizgod') && ($module = $app->getModule('bizgod')) instanceof Module) {
             if ($app instanceof ConsoleApplication) {
-                $module->controllerNamespace = 'syniverse\bizgod\commands';
+                $module->controllerNamespace = 'istt\bizgod\commands';
+                $app->get('urlManager')->baseUrl = $module->baseUrl;
             } else {
                 $configUrlRule = [
                     'prefix' => $module->urlPrefix,
@@ -50,9 +52,6 @@ class Bootstrap implements BootstrapInterface
                 'class'    => 'yii\i18n\PhpMessageSource',
                 'basePath' => __DIR__ . '/messages',
             ];
-            if ($module->db instanceof Connection){
-            	$app->db = $module->db;
-            }
         }
     }
 }
