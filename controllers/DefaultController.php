@@ -14,6 +14,7 @@ use istt\bizgod\models\ResponseSearch;
 use yii\data\ActiveDataProvider;
 use istt\bizgod\models\Response;
 use istt\bizgod\models\Invite;
+use istt\bizgod\models\OrderAttributes;
 
 /**
  * DefaultController implements the CRUD actions for NetworkOperator model.
@@ -58,7 +59,12 @@ class DefaultController extends Controller
     	$model->customer_id = Yii::$app->getUser()->getId();
     	$model->order_date = date('Y-m-d');
 
+    	$fields = new OrderAttributes();
+
     	if ($model->load(Yii::$app->request->post()) && $model->save()) {
+    		$fields->load(Yii::$app->request->post());
+    		$fields->order_id = $model->id;
+    		$fields->save();
     		return $this->redirect(['view-order', 'id' => $model->id]);
     	} else {
 	    	$model->due_date = date('Y-m-d', strtotime("+1 week"));
@@ -66,6 +72,7 @@ class DefaultController extends Controller
 	    	if ($customer) $model->delivery_address = $customer->address;
     		return $this->render('createOrder', [
     				'model' => $model,
+    				'fields'	=>	$fields,
     		]);
     	}
     }

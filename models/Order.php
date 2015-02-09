@@ -125,6 +125,13 @@ class Order extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getFields()
+    {
+        return $this->hasOne(OrderAttributes::className(), ['order_id' => 'id']);
+    }
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getCustomer()
     {
         return $this->hasOne(Customer::className(), ['user_id' => 'customer_id']);

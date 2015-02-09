@@ -85,6 +85,10 @@ use yii\helpers\VarDumper;
 		    		]
 		    	])->textInput(['maxlength' => 255]) ?>
 
+	<?= $form->field($fields, 'note')->textarea(['rows' => 5, 'cols' => 80]); ?>
+
+	<?= $form->field($fields, 'comment')->textarea(['rows' => 5, 'cols' => 80]); ?>
+
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>

@@ -42,6 +42,10 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]) ?>
 
+    <?= DetailView::widget([
+        'model' => $model->fields
+        ]); ?>
+
 </div>
 
 <?= GridView::widget([
