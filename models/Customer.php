@@ -58,9 +58,7 @@ class Customer extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'username' => Yii::t('app', 'Username'),
-            'password' => Yii::t('app', 'Password'),
+            'user_id' => Yii::t('app', 'User ID'),
             'full_name' => Yii::t('app', 'Full Name'),
             'mobile' => Yii::t('app', 'Mobile'),
             'email' => Yii::t('app', 'Email'),

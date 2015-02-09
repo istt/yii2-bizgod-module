@@ -76,7 +76,7 @@ use yii\helpers\ArrayHelper;
 
     <?= $form->field($model, 'customer_id')->widget(Select2::className(), [
     		// TODO: Add ajax support for this
-    		'data' => ArrayHelper::map(Customer::find()->all(), 'id', 'username')
+    		'data' => ArrayHelper::map(Customer::find()->all(), 'user_id', 'full_name')
     ]) ?>
 
     <?= $form->field($model, 'delivery_type')->textInput() ?>

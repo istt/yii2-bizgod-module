@@ -33,6 +33,7 @@ use Yii;
 class Order extends \yii\db\ActiveRecord
 {
 	const DIR="uploads/orders/";
+
 	const TYPE_ALL = 0;		// Invite All Supplier
 	const TYPE_LIMITED = 1;	// Invite certified supplier only
 	const TYPE_CUSTOM = 2;	// Choose custom supplier
@@ -59,17 +60,24 @@ class Order extends \yii\db\ActiveRecord
     }
 
     /**
-     * @inheritdoc
+     * Extra form attributes
+     */
+    public $formProductImage;
+    public $formRfpAttach;
+    /**
+     * @see \yii\base\Model::rules()
      */
     public function rules()
     {
         return [
-            [['order_name', 'order_description', 'order_status', 'unit', 'quantity', 'order_type', 'rfp_attach', 'product_image', 'budget', 'order_date', 'due_date', 'billing_type', 'delivery_type', 'delivery_address'], 'required'],
+            [['order_name', 'order_description', 'order_status', 'unit', 'quantity', 'order_type', 'budget', 'order_date', 'due_date', 'billing_type', 'delivery_type', 'delivery_address'], 'required'],
             [['customer_id', 'category_id', 'order_status', 'order_type', 'billing_type', 'delivery_type'], 'integer'],
             [['order_description'], 'string'],
             [['quantity', 'budget'], 'number'],
             [['order_date', 'due_date'], 'safe'],
-            [['order_name', 'unit', 'rfp_attach', 'product_image', 'delivery_address'], 'string', 'max' => 255]
+            [['order_name', 'unit', 'rfp_attach', 'product_image', 'delivery_address'], 'string', 'max' => 255],
+        		[['order_type'], 'in', 'range' => array_keys(self::typeOptions())],
+        		[['formProductImage', 'formRfpAttach'], 'file'],
         ];
     }
 
@@ -144,5 +152,18 @@ class Order extends \yii\db\ActiveRecord
     public function getResponses()
     {
         return $this->hasMany(Response::className(), ['order_id' => 'id']);
+    }
+
+    /***** ALIASES *******/
+    /**
+     * Return a list of available types
+     * @return multitype:string Ambigous <string, string>
+     */
+    public static function typeOptions(){
+    	return [
+    			self::TYPE_ALL => Yii::t('bizgod', 'All supplier'),
+    			self::TYPE_CUSTOM => Yii::t('bizgod', 'Let me choose....'),
+    			self::TYPE_LIMITED  => Yii::t('bizgod', 'My Favourite Suppliers'),
+    	];
     }
 }

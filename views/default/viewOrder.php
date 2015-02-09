@@ -19,6 +19,9 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a(Yii::t('app', 'Response'), ['new-response', 'order_id' => $model->id], ['class' => 'btn btn-primary']) ?>
     </p>
 
+    <?= Html::img(Yii::getAlias("@web/" . $model::DIR . $model->product_image)); ?>
+    <?= ($model->rfp_attach)?Html::a(Yii::t('bizgod', 'RFP Attach'), Yii::getAlias("@web/" . $model::DIR . $model->rfp_attach)):''; ?>
+
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
@@ -31,8 +34,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'quantity',
             'unit',
             'order_type',
-            'rfp_attach',
-            'product_image',
             'budget',
             'order_date',
             'due_date',

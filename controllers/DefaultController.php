@@ -14,6 +14,8 @@ use istt\bizgod\models\ResponseSearch;
 use yii\data\ActiveDataProvider;
 use istt\bizgod\models\Response;
 use istt\bizgod\models\Invite;
+use yii\helpers\VarDumper;
+use yii\web\UploadedFile;
 
 /**
  * DefaultController implements the CRUD actions for NetworkOperator model.
@@ -56,10 +58,37 @@ class DefaultController extends Controller
     public function actionNewOrder(){
     	$model = new Order();
     	$model->customer_id = Yii::$app->getUser()->getId();
+    	$model->order_status = 0;
     	$model->order_date = date('Y-m-d');
 
-    	if ($model->load(Yii::$app->request->post()) && $model->save()) {
-    		return $this->redirect(['view-order', 'id' => $model->id]);
+    	if ($model->load(Yii::$app->request->post())) {
+    		$productImage = UploadedFile::getInstance($model, 'formProductImage');
+    		if ($productImage instanceof UploadedFile){
+	    		$i = '';
+	    		while (file_exists($filePath = Yii::getAlias("@webroot/" . Order::DIR . $productImage->baseName . $i . '.' . $productImage->extension))){
+	    			$i += 1;
+	    		}
+	    		$productImage->saveAs($filePath);
+	    		$model->product_image = basename($filePath);
+    		}
+
+    		$rfpAttach = UploadedFile::getInstance($model, 'formRfpAttach');
+    		$i = '';
+    		if ($rfpAttach instanceof UploadedFile){
+	    		while (file_exists($filePath = Yii::getAlias("@webroot/" . Order::DIR . $rfpAttach->baseName . $i . '.' .$rfpAttach->extension))){
+	    			$i += 1;
+	    		}
+	    		$rfpAttach->saveAs($filePath);
+	    		$model->rfp_attach = basename($filePath);
+    		}
+
+    		if ($model->save()){
+	    		return $this->redirect(['view-order', 'id' => $model->id]);
+    		} else {
+    			@unlink($model->rfp_attach);
+    			@unlink($model->product_image);
+    			return VarDumper::dumpAsString($model->errors);
+    		}
     	} else {
 	    	$model->due_date = date('Y-m-d', strtotime("+1 week"));
 	    	$customer  = Customer::findOne(Yii::$app->getUser()->getId());

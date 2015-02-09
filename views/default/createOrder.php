@@ -8,6 +8,8 @@ use kartik\widgets\Select2;
 use istt\bizgod\models\Customer;
 use yii\helpers\ArrayHelper;
 use yii\helpers\VarDumper;
+use kartik\widgets\FileInput;
+use istt\bizgod\models\Order;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Order */
@@ -16,7 +18,7 @@ use yii\helpers\VarDumper;
 
 <div class="order-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin([ 'options'=>['enctype'=>'multipart/form-data']]); ?>
 
     <?= $form->field($model, 'order_name',  [
 		    		'addon' => [
@@ -30,14 +32,6 @@ use yii\helpers\VarDumper;
 
     <?= $form->field($model, 'order_description')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'order_status',  [
-		    		'addon' => [
-		    			'prepend' =>[
-		    				'content' => '<i class="glyphicon glyphicon-heart"></i>'
-		    			]
-		    		]
-		    	])->dropDownList([Yii::t('app', 'Disable'), Yii::t('app', 'Enable')]) ?>
-
     <div class="row">
 		<div class="col-sm-6">
 		    <?= $form->field($model, 'quantity')->textInput() ?>
@@ -50,11 +44,11 @@ use yii\helpers\VarDumper;
 	</div>
 
 
-    <?= $form->field($model, 'order_type')->textInput() ?>
+    <?= $form->field($model, 'order_type')->dropDownList(Order::typeOptions()) ?>
 
-    <?= $form->field($model, 'rfp_attach')->textInput(['maxlength' => 255]) ?>
+    <?= $form->field($model, 'formRfpAttach')->widget(FileInput::className(), []) ?>
 
-    <?= $form->field($model, 'product_image')->textInput(['maxlength' => 255]) ?>
+    <?= $form->field($model, 'formProductImage')->widget(FileInput::className(), []) ?>
 
     <?= $form->field($model, 'budget',  [
 		    		'addon' => [
